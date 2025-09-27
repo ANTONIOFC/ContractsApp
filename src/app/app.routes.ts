@@ -12,6 +12,9 @@ export const routes: Routes = [
         children:[
             {path: '', component: ContractList},
             {
+                path:'new', component: ContractDetail
+            },
+            {
                 path: ':id',
                 resolve: {contract: contracsResolver},
                 runGuardsAndResolvers: 'always',

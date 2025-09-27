@@ -10,9 +10,12 @@ export const contracsResolver: ResolveFn<Contract> = (route, state) => {
   const contractId = route.paramMap.get("id");
 
   if(!contractId) {
+    contractService.editMode.set(false);
     router.navigateByUrl('/not-found');
     return EMPTY; 
   };
+
+  contractService.editMode.set(true);
 
   return contractService.getContract(contractId);
 };

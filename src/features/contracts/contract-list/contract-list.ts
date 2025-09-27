@@ -1,22 +1,43 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { ContractService } from '../../../core/services/contract-service';
-import { Observable } from 'rxjs';
+import { filter, switchMap, take } from 'rxjs';
 import { Contract } from '../../../types/contract';
-import { AsyncPipe, CurrencyPipe, DatePipe, NgClass } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ConfirmationModal } from "../../../shared/confirmation-modal/confirmation-modal";
+import { ConfirmationModalService } from '../../../core/services/confirmation-modal-service';
+import { ToastService } from '../../../core/services/toast-service';
 
 @Component({
   selector: 'app-contract-list',
-  imports: [AsyncPipe, RouterLink, DatePipe, CurrencyPipe, NgClass],
+  imports: [RouterLink, DatePipe, CurrencyPipe, NgClass, ConfirmationModal],
   templateUrl: './contract-list.html',
   styleUrl: './contract-list.css'
 })
 export class ContractList {
-  private contractService = inject(ContractService);
-  protected contracts$: Observable<Contract[]>;
-
+  protected contractService = inject(ContractService);
+  protected confirmationModalService = inject(ConfirmationModalService);
+  private toast = inject(ToastService)
+  
   constructor() {
-    this.contracts$ = this.contractService.getContracts();
+    this.contractService.getContracts(0,20);
   }
 
+  onContractDelete(contract: Contract) {
+
+    this.confirmationModalService.open("Deseja excluir o contrato '" + contract.title + "'?");
+
+    this.confirmationModalService.confirmAction$.pipe(
+      filter(confirmed => confirmed === true),
+      switchMap(() => this.contractService.deleteContract(contract.id)),
+      take(1)
+    ).subscribe({
+      next: () => {
+        this.toast.success('Contrato excluído com sucesso !');
+      },
+       error: () => {
+        this.toast.error('Erro ao excluir o contrato !!!');
+      }
+    })
+  }
 }
