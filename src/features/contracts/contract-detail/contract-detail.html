@@ -1,0 +1,68 @@
+@if(contractService.contract(); as contract) {
+
+<div class="card bg-base-100 w-2/3 mx-auto flex flex-col p-6 rounded-lg shadow-lg">
+    <div class="card-title justify-center text-3xl text-primary">Cadastro de Contrato</div>
+    <div class="card-body w-full">
+        <form [formGroup]="contractForm" (ngSubmit)="onSubmit()" class="flex flex-col w-full gap-4">
+            <label class="floating-label">
+                <span>Título</span>
+                <input class="input w-full" formControlName="title" placeholder="Título do contrato">
+                <!-- @if(contractForm.get('title')?.invalid && contractForm.get('title')?.touched) {
+                    <div>
+                        Título é obrigatório.
+                    </div>
+                } -->
+            </label>
+            <label class="floating-label">
+
+                <span>Valor (R$)</span>
+                <input 
+                    class="input input-bordered w-1/3" 
+                    type="number" 
+                    formControlName="value" 
+                    placeholder="0.00" 
+                    min="0.00"
+                    step="0.01">
+            </label>
+            <label class="floating-label">
+                <span>Satus</span>
+                <select class="select w-1/3" formControlName="status">
+                    <option disabled value="">Selecione um status</option>
+                    @for (status of statusList; track status) {
+                    <option [value]="status">{{ status }}</option>
+                    }
+                </select>
+            </label>
+            <label class="floating-label">
+                <span>Categoria</span>
+                <select class="select w-1/3" formControlName="category">
+                    <option disabled value="">Selecione uma categoria</option>
+                    @for (category of categories; track category) {
+                    <option [value]="category">{{ category }}</option>
+                    }
+                </select>
+            </label>
+            <label class="floating-label">
+                <span>Fornecedor</span>
+                <input class="input w-full" formControlName="supplier" name="supplier"
+                    placeholder="Fornecedor">
+            </label>
+
+            <label class="floating-label">
+                <span>Validade</span>
+                <input 
+                    type="date" 
+                    formControlName="due_date" 
+                    class="input input-bordered w-full max-w-xs"
+                />            
+            </label>
+
+
+            <div class="flex items-center justify-end gap-3">
+                <button type="button" class="btn w-1/6" (click)="onCancelClick()">Cancelar</button>
+                <button type="submit" class="btn btn-primary w-1/6">Gravar</button>
+            </div>
+        </form>
+    </div>
+</div>
+}
