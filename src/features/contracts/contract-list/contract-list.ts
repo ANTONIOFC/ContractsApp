@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { ContractService } from '../../../core/services/contract-service';
 import { filter, switchMap, take } from 'rxjs';
 import { Contract } from '../../../types/contract';
@@ -14,12 +14,16 @@ import { ToastService } from '../../../core/services/toast-service';
   templateUrl: './contract-list.html',
   styleUrl: './contract-list.css'
 })
-export class ContractList {
+export class ContractList implements OnInit {
   protected contractService = inject(ContractService);
   protected confirmationModalService = inject(ConfirmationModalService);
   private toast = inject(ToastService)
   
   constructor() {
+    //this.contractService.getContracts(0,20);
+  }
+
+  ngOnInit(): void {
     this.contractService.getContracts(0,20);
   }
 

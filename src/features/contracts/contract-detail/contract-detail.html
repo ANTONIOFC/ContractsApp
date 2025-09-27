@@ -2,48 +2,62 @@
     <div class="card-title justify-center text-3xl text-primary">Cadastro de Contrato</div>
     <div class="card-body w-full">
         <form [formGroup]="contractForm" (ngSubmit)="onSubmit()" class="flex flex-col w-full gap-4">
+            <app-text-input label="Título" formControlName="title" />
+            
             <label class="floating-label">
-                <span>Título</span>
-                <input class="input w-full" formControlName="title" placeholder="Título do contrato">
-                <!-- @if(contractForm.get('title')?.invalid && contractForm.get('title')?.touched) {
-                    <div>
-                        Título é obrigatório.
-                    </div>
-                } -->
-            </label>
-            <label class="floating-label">
-
                 <span>Valor (R$)</span>
                 <input 
                     class="input input-bordered w-1/3" 
                     type="number" 
                     formControlName="value" 
+                    [class.input-error]="contractForm.controls['value'].invalid && contractForm.controls['value'].touched"
+                    [class.input-success]="contractForm.controls['value'].valid && contractForm.controls['value'].touched"
                     placeholder="0.00" 
                     min="0.00"
                     step="0.01">
+                @if(contractForm.controls['value'].invalid 
+                    && contractForm.controls['value'].touched) {
+                        <div class="validaton-hint text-error text-xs">Valor é obrigatório</div>
+                    }
             </label>
+
             <label class="floating-label">
                 <span>Categoria</span>
-                <select class="select w-1/3" formControlName="category">
+                <select 
+                    [class.input-error]="contractForm.controls['category'].invalid && contractForm.controls['category'].touched"
+                    [class.input-success]="contractForm.controls['category'].valid && contractForm.controls['category'].touched"
+                    class="select w-1/3" 
+                    formControlName="category">
                     <option disabled value="">Selecione uma categoria</option>
                     @for (category of categories; track category) {
                     <option [value]="category">{{ category }}</option>
                     }
                 </select>
+                @if(contractForm.controls['category'].invalid 
+                    && contractForm.controls['category'].touched) {
+                        <div class="validaton-hint text-error text-xs">Categoria é obrigatória</div>
+                }
             </label>
-            <label class="floating-label">
-                <span>Fornecedor</span>
-                <input class="input w-full" formControlName="supplier" name="supplier"
-                    placeholder="Fornecedor">
-            </label>
+
+            <app-text-input label="Fornecedor" formControlName="supplier" />
+
             <label class="floating-label">
                 <span>Satus</span>
-                <select class="select w-1/3" formControlName="status">
+                <select 
+                    [class.input-error]="contractForm.controls['status'].invalid && contractForm.controls['status'].touched"
+                    [class.input-success]="contractForm.controls['status'].valid && contractForm.controls['status'].touched"
+                    class="select w-1/3" 
+                    formControlName="status">
                     <option disabled value="">Selecione um status</option>
                     @for (status of statusList; track status) {
                     <option [value]="status">{{ status }}</option>
                     }
                 </select>
+                @if(contractForm.controls['status'].invalid 
+                    && contractForm.controls['status'].touched) {
+                        <div class="validaton-hint text-error text-xs">Status é obrigatório</div>
+                }
+
             </label>
 
             <label class="floating-label">
@@ -51,21 +65,27 @@
                 <input 
                     type="date" 
                     formControlName="due_date" 
-                    class="input input-bordered w-full max-w-xs"
-                />            
+                    [class.input-error]="contractForm.controls['due_date'].invalid && contractForm.controls['due_date'].touched"
+                    [class.input-success]="contractForm.controls['due_date'].valid && contractForm.controls['due_date'].touched"
+                    class="input input-bordered w-1/3"
+                />   
+                @if(contractForm.controls['due_date'].invalid 
+                    && contractForm.controls['due_date'].touched) {
+                        <div class="validaton-hint text-error text-xs">Validade é obrigatória</div>
+                }
+         
             </label>
 
             @if (!contractService.editMode()) {
-            <label class="floating-label">
-                <span>Responsável</span>
-                <input class="input w-full" formControlName="user" name="user"
-                    placeholder="Responsável">
-            </label>
+            <app-text-input label="Responsável" formControlName="user" />
             }
 
             <div class="flex items-center justify-end gap-3">
                 <button type="button" class="btn w-1/6" (click)="onCancelClick()">Cancelar</button>
-                <button type="submit" class="btn btn-primary w-1/6">Gravar</button>
+                <button 
+                    [disabled]="!contractForm.valid"
+                    type="submit"
+                    class="btn btn-primary w-1/6">Gravar</button>
             </div>
         </form>
     </div>

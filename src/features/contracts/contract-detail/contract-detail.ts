@@ -8,10 +8,11 @@ import { ToastService } from '../../../core/services/toast-service';
 import { ConfirmationModalService } from '../../../core/services/confirmation-modal-service';
 import { ConfirmationModal } from "../../../shared/confirmation-modal/confirmation-modal";
 import { filter, switchMap, take } from 'rxjs';
+import { TextInput } from '../../../shared/text-input/text-input';
 
 @Component({
   selector: 'app-contract-detail',
-  imports: [ReactiveFormsModule, ConfirmationModal],
+  imports: [ReactiveFormsModule, ConfirmationModal, TextInput],
   templateUrl: './contract-detail.html',
   styleUrl: './contract-detail.css'
 })
@@ -40,13 +41,13 @@ export class ContractDetail implements OnInit, OnDestroy {
 
   constructor() {
     this.contractForm = this.fb.group({
-      title: ['', Validators.required],
+      title: ['', [Validators.required, Validators.minLength(4)]],
       due_date: [undefined, Validators.required],
       value: [undefined, Validators.required],
       status: ['', Validators.required],
       category: ['', Validators.required],
-      supplier: ['', Validators.required],
-      user: ['', Validators.required]
+      supplier: ['', [Validators.required, Validators.minLength(4)]],
+      user: ['', [Validators.required, Validators.minLength(2)]]
     })
   }
 
