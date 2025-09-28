@@ -1,0 +1,95 @@
+<dialog #filterModal class="modal">
+  <div class="modal-box max-w-lg">
+    <h3 class="text-lg font-bold">Selecione um filtro:</h3>
+
+
+
+    <div class="flex justify-between w-full items-center mt-6">
+        <div class="flex flex-col w-full gap-4">
+
+            <label class="flex justify-between items-center">
+                <span class="font-semibold">Filtrar por:</span>
+                <form class="filter" (reset)="resetFilters()">
+                    <input type="reset" value="x" class="btn btn-square">
+                    <input 
+                        type="radio" class="btn" 
+                        aria-label="status"
+                        name="rdFilter"
+                        [(ngModel)]="filterType"
+                        value="s"
+                        (change)="onRadioChange()"
+                    >
+                    <input 
+                        type="radio" class="btn" 
+                        aria-label="categoria"
+                        [(ngModel)]="filterType"
+                        name="rdFilter"
+                        value="c"
+                        (change)="onRadioChange()"
+                    >
+                    <input 
+                        type="radio" class="btn" 
+                        aria-label="faixa valor"
+                        [(ngModel)]="filterType"
+                        name="rdFilter"
+                        value="d"
+                        (change)="onRadioChange()"
+                    >
+                </form>
+            </label>    
+
+
+            <label class="flex justify-between items-center">
+                <span class="font-semibold">Status: </span>
+                <select 
+                    name="status"
+                    class="select"
+                    [disabled]="filterType !== 's'"
+                    [(ngModel)]="contractParams().status">
+                @for (status of statusList; track status) {
+                    <option [value]="status">{{ status }}</option>
+                }
+                </select>
+            </label>
+
+            <label class="flex justify-between items-center">
+                <span class="font-semibold">Categoria: </span>
+                <select 
+                    name="category" 
+                    class="select" 
+                    [disabled]="filterType !== 'c'"
+                    [(ngModel)]="contractParams().category">
+                @for (category of categories; track category) {
+                    <option [value]="category">{{ category }}</option>
+                }
+                </select>
+            </label>
+
+            <label class="flex justify-between items-center">
+                <span class="font-semibold">Validade:</span>
+                <input 
+                    type="date" 
+                    [disabled]="filterType !== 'd'"
+                    [(ngModel)]="contractParams().date_1"
+                    class="input input-bordered text-xs w-1/4"
+                />
+                <input 
+                    type="date" 
+                    [disabled]="filterType !== 'd'"
+                    [(ngModel)]="contractParams().date_2"
+                    class="input input-bordered text-xs w-1/4"
+                />      
+            </label>
+        </div>
+    </div>
+
+    <div class="modal-action">
+      <button (click)="submit()" class="btn btn-primary">Filtrar</button>
+    </div>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button (click)="close()">Close</button>
+  </form>
+
+</dialog>

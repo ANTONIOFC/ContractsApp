@@ -1,7 +1,9 @@
 <div class="flex flex-col rounded-box gap-3 bg-base-100">
     <div class="overflow-x-auto rounded-box border border-base-content/5">
-        <div class="flex w-full justify-end p-4">
-            <button type="button" class="btn btn-primary-content" routerLink="/contracts/new">Criar contrato</button>
+        <div class="flex w-full justify-end items-center p-4 gap-3">
+            <button type="button" class="btn btn-primary-neutral" (click)="resetFilters()">Limpar filtros</button>
+            <button type="button" class="btn btn-primary-neutral" (click)="openModal()">Filtrar contratos</button>
+            <button type="button" class="btn bg-blue-200" routerLink="/contracts/new">Criar contrato</button>
         </div>
         <div class="w-full p-2">
             <table class="table table-sm bg-gray-100">
@@ -50,3 +52,9 @@
 </div>
 
 <app-confirmation-modal></app-confirmation-modal>
+<app-filter-modal
+#filterModal
+    (closeModal)="onClose()"
+    (submitData)="onFilterChange($event)"
+    [contractParams]="contractParams"
+></app-filter-modal>
