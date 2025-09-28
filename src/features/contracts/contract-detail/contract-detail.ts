@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { EditableContract } from '../../../types/contract';
@@ -17,7 +17,11 @@ import { TextInput } from '../../../shared/text-input/text-input';
   styleUrl: './contract-detail.css'
 })
 export class ContractDetail implements OnInit, OnDestroy {
-  
+  @HostListener('window:beforeunload', ['$event']) notify($event: BeforeUnloadEvent) {
+    if (this.contractForm.dirty) {
+      $event.preventDefault();
+    }
+  }
   private router = inject(Router);
   private location = inject(Location);
   protected confirmationModalService = inject(ConfirmationModalService);
@@ -37,7 +41,7 @@ export class ContractDetail implements OnInit, OnDestroy {
   protected categories = ['Eventual', 'Recorrente'];
 
   private fb = inject(FormBuilder);
-  protected contractForm: FormGroup;
+  contractForm: FormGroup;
 
   constructor() {
     this.contractForm = this.fb.group({

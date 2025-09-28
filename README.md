@@ -1,6 +1,8 @@
 # ContractsApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.2.
+This is a project developed to attend the requirements of a job application.  
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.2.\
+The CSS styling were used [Tailwind](https://tailwindcss.com/) and [DaisyUI Plugin](https://daisyui.com/).
 
 ## Development server
 
@@ -54,6 +56,6 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
-## Additional Resources
+## Functional Example
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+In order to view the funtional example of this project, visit the [ContractsApp](https://contractsapp.onrender.com/)  site.
